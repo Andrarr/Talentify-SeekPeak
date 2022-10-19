@@ -1,0 +1,19 @@
+{
+  "name": "seekpeak-talentify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andrarr/SeekPeak.git"
+  },
+  "author": "Andra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Andrarr/SeekPeak/issues"
+  },
+  "homepage": "https://github.com/Andrarr/SeekPeak#readme"
+}
