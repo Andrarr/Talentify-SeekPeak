@@ -1,12 +1,9 @@
 import mongoose from "mongoose";
 
-import {Department} from "./departments.js";
-import { User, TeamLead, Cto } from "./users.js";
 
 const questionsSchema = new mongoose.Schema({
     question: String,
-    choices: String
-
+    choices: JSON
 })
 
 const testSchema = new mongoose.Schema({
