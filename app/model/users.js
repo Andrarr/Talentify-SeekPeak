@@ -1,13 +1,5 @@
 import mongoose from "mongoose"
-import {Department} from "./departments.js"
-
-const ctoSchema = new mongoose.Schema({
-
-})
-
-const teamLeadSchema = new mongoose.Schema({
-
-})
+import { Department } from "./departments.js"
 
 const usersSchema = new mongoose.Schema({
 
@@ -15,20 +7,42 @@ const usersSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    name: String,
-    surname: String,
-    birthday: Date,
-    country: String,
-    gender: Boolean,
-    password: String,
-    department: String, //referenced
-    confirmPassword: String,
-    role: String // save as array the roles, default user
-
+    name: {
+        type: String,
+        required: true
+    },
+    surname: {
+        type: String,
+        required: true
+    },
+    birthday: {
+        type: Date,
+        required: true
+    },
+    country: {
+        type: String,
+        required: true
+    },
+    gender: {
+        type: String, required: true
+    },
+    password: {
+        type: String, required: true
+    },
+    confirmPassword: {
+        type: String, required: true
+    },
+    department: {  //referenced
+        type: String, required: true
+    },
+    role: {
+        type: String,
+        default: 'User', 
+        enum:["User","teamLeader", "CEO"]
+    }
 })
 
 let User = mongoose.model('User', usersSchema)
-let TeamLead = mongoose.model('TeamLead', teamLeadSchema)
-let Cto = mongoose.model('Cto', ctoSchema)
 
-export  { User, TeamLead, Cto }
+
+export { User }
