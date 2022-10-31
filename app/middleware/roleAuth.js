@@ -4,8 +4,8 @@ import { User } from "../model/users.js";
 import { ObjectId } from "mongodb"
 
 export const roleAuthorization = function (req, res, next) {
-    var authHeader = req.headers['authorization']
-    var token = authHeader && authHeader.split(" ")[1]
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(" ")[1]
 
     if (token == null) {
         return res.sendStatus(401)
@@ -15,9 +15,9 @@ export const roleAuthorization = function (req, res, next) {
             if (err) {
                 return res.sendStatus(403)
             }
-            var thisUser = await User.findOne({ _id: ObjectId(auth.id) })
+            const thisUser = await User.findOne({ _id: ObjectId(auth.id) })
            // console.log(thisUser)
-            if (thisUser.role == "admin" || thisUser.role == "teamLeader") {
+            if (thisUser.role == "admin" || thisUser.role == "teamLeader" || thisUser.role == "super-admin" || thisUser.role == "CTO") {
                 next()
             } else {
                 res.status(403).send({ message: "You don't have authority for this action!" })
@@ -29,4 +29,31 @@ export const roleAuthorization = function (req, res, next) {
         res.send({ message: err.message })
     }
 
+}
+
+export const roleSuperAdmin = function(req, res, next){
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(" ")[1]
+
+    if (token == null) {
+        return res.sendStatus(401)
+    }
+    try {
+        jwt.verify(token, `${process.env.ACCESS_TOKEN_SECRET}`, async (err, auth) => {
+            if (err) {
+                return res.sendStatus(403)
+            }
+            const thisUser = await User.findOne({ _id: ObjectId(auth.id) })
+           // console.log(thisUser)
+            if (thisUser.role == "super-admin" || thisUser.role == "CTO") {
+                next()
+            } else {
+                res.status(403).send({ message: "Only a super-admin/ CTO has access!" })
+            }
+
+        })
+    }
+    catch (err) {
+        res.send({ message: err.message })
+    }
 }

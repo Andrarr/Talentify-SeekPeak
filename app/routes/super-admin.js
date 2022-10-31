@@ -12,7 +12,6 @@ app.use(bodyParser.urlencoded({
 }));
 //can manage teamLeaders, in future phases of the project
 const router = express.Router()
-
 let user = router.post("/super-admin", roleSuperAdmin, async (req, res) => {
 
     let teamLeadToBe = {

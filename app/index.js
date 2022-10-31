@@ -24,7 +24,9 @@ app.use("/refresh-token", refresh)
 app.use("/api", depRouter)
 app.use("/api", userRouter)
 app.use("/api", addRole)
+
 app.use("/api", user)
+
 app.use("/api", getApplicant)
 app.use("/api", newApplicants);
 app.use("/api", getAllApplicants )
