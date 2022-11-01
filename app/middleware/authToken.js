@@ -14,8 +14,9 @@ export const authenticateToken = async (req, res, next) => {
         if (err) {
             return res.sendStatus(403)
         }
-
-        req.auth = await User.findOne({ _id: ObjectId(auth._id) });
+        
+        req.auth = await User.findOne({ _id: ObjectId(auth.id) });
+        // console.log(req.auth)
         next()
     })
 }

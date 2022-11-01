@@ -1,23 +1,24 @@
 import bodyParser from "body-parser"
 import express, { query } from "express"
-import {router as depRouter} from "./routes/departments.js"
+import { router as depRouter } from "./routes/departments.js"
 import { db } from "./config/connection.js"
-import {router as userRouter} from "./routes/users.js"
-import {addRole } from "./routes/admin.js"
+import { router as userRouter } from "./routes/users.js"
+import { addRole } from "./routes/admin.js"
 const app = express()
 const PORT = process.env.PORT || 4000
 import { roleAuthorization } from "./middleware/roleAuth.js"
-import {router as refresh} from "./routes/refreshToken.js"
-import cookieParser  from 'cookie-parser'
-import {user} from "./routes/super-admin.js"
-import {getApplicant} from "./routes/admin.js"
-import {newApplicants} from "./routes/applicants.js"
-import {getAllApplicants} from "./routes/admin.js"
- import {fileUpload} from "./routes/fileManaging.js"
-import { queryApplicants} from "./routes/admin.js"
-
+import { router as refresh } from "./routes/refreshToken.js"
+import cookieParser from 'cookie-parser'
+import { user } from "./routes/super-admin.js"
+import { getApplicant } from "./routes/admin.js"
+import { newApplicants } from "./routes/applicants.js"
+import { getAllApplicants } from "./routes/admin.js"
+// import { fileUpload } from "./routes/fileManaging.js"
+import { queryApplicants } from "./routes/admin.js"
+//import {fileServer} from "./controllers/uploadController.js"
 
 app.use(bodyParser.json())
+
 
 app.use(cookieParser());
 app.use("/refresh-token", refresh)
@@ -29,8 +30,8 @@ app.use("/api", user)
 
 app.use("/api", getApplicant)
 app.use("/api", newApplicants);
-app.use("/api", getAllApplicants )
-app.use("/upload", fileUpload)
+app.use("/api", getAllApplicants)
+// app.use("/upload", fileUpload)
 app.use("/query", queryApplicants)
-
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
+app.use("/uploads", express.static('upload'))
+app.listen(PORT, (req, res) => { console.log(`Server started on port ${PORT}`) })

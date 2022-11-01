@@ -47,8 +47,6 @@ const addRole = router.put("/users/:id", roleAuthorization, async (req, res) => 
     }
 })
 
-//get one applicant's data
-
 const getApplicant = router.get("/applicant", roleAuthorization, async (req, res) => {
     try {
         let wantedApplicant = await Applicant.findOne({ email: req.body.email })

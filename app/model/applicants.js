@@ -20,11 +20,11 @@ const documentsSchema = new mongoose.Schema({
 
 const applicantsSchema = new mongoose.Schema({
 
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // referenced user with id
-    email: { type: String },
-    passedTest: { type: Boolean },
-    approvedApplication: { type: Boolean },
-    importedDocs: {type: String}
+    //userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, 
+    email:{type: String, ref: "User"},// referenced user with id
+    passedTest: { type: Boolean, default: null },
+    approvedApplication: { type: Boolean, default: null },
+    importedDocs: {type: Object}
 },
     { timestamps: { createdAt: "created_at" } }
 )

@@ -5,11 +5,11 @@ import ObjectId from "mongoose";
 import { Applicant } from "../model/applicants.js"
 import { Document } from "../model/applicants.js";
 import { User } from "../model/users.js";
-//import { roleAuthorization } from "../middleware/roleAuth.js";
 import { authenticateToken } from "../middleware/authToken.js";
-//import { fileUpload } from "./fileManaging.js";
-//import { file_upload } from "../middleware/fileManaging.js";
-// import { upload } from "../middleware/fileManaging.js";
+import { uploader } from "../controllers/uploadController.js";
+
+
+
 const app = express()
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -17,41 +17,22 @@ app.use(bodyParser.urlencoded({
 }));
 const router = express.Router()
 
-const Storage = multer.diskStorage({
-    destination: "upload",
-    filename: (req, file, callback) => {
-        callback(null, file.originalname)
-    }
-})
-//export const upload = multer({ storage: Storage })
 
-const newApplicants = router.post("/applicants", async (req, res) => {
+const newApplicants = router.post("/applicants", authenticateToken, async (req, res) => {
 
     try {
-        if (req.body.email) {
-            let registeredEmail = await User.findOne({ email: req.body.email })
-            console.log(registeredEmail)
-            let existsApplicant = Applicant.findOne({userId: req.body.userId})
-            if(existsApplicant){
-                return res.send({message: `this email has already applied`})
-            }
-            if (!registeredEmail) {
-                return res.send({ message: "This email is not registered as a user!" })
-            }
-            if (registeredEmail) {
-                const newApplicant = {
-                    userId: req.body.userId,
-                    email: req.body.email,
-                    approvedApplication: req.body.approvedApplication,
-                    passedTest: req.body.passedTest
-                }
-                Applicant.create(newApplicant)
-                return res.send({ message: "Application has been sent!" })
-            }
+        // console.log("from here" + req.auth)
+        let applicantWithThisEmail = await Applicant.findOne({ email: req.auth.email })
+        if (applicantWithThisEmail) {
+            return res.json({ message: "this user has already applied" })
+        } else {
+            uploader(req, res)
+          return res.json({message: "Application went successfullly!"})
         }
     } catch (err) {
-        res.send({ message: err.message })
+        res.json({ message: err.message })
     }
+
 })
 
 export { newApplicants }
