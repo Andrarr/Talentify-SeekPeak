@@ -9,11 +9,7 @@ import { authenticateToken } from '../middleware/authToken.js'
 import { roleAuthorization } from "../middleware/roleAuth.js"
 
 dotenv.config();
-const app = express()
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+
 const router = express.Router()
 
 const createAccessToken = (id) => {
