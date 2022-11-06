@@ -1,55 +1,36 @@
-import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv'
 import { User } from "../model/users.js";
-import { ObjectId } from "mongodb"
+import { roles } from "../utils/inputs.js"
 
 export const roleAuthorization = function (req, res, next) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(" ")[1]
-
-    if (token == null) {
-        return res.sendStatus(401)
-    }
     try {
-        jwt.verify(token, `${process.env.ACCESS_TOKEN_SECRET}`, async (err, auth) => {
-            if (err) {
-                return res.sendStatus(403)
-            }
-            const thisUser = await User.findOne({ _id: ObjectId(auth.id) })
-           // console.log(thisUser)
-            if (thisUser.role == "admin" || thisUser.role == "teamLeader" || thisUser.role == "super-admin" || thisUser.role == "CTO") {
+        switch (req.auth.role) {
+            case roles.TEAMLEADER:
+            case roles.CTO:
+            case roles.ADMIN:
+            case roles.SUPER_ADMIN:
                 next()
-            } else {
-                res.status(403).send({ message: "You don't have authority for this action!" })
-            }
-
-        })
+                break;
+            default: res.status(403).send({ message: "You don't have authority for this action!" })
+                console.log("You don't have authority for this action!")
+                break;
+        }
     }
     catch (err) {
         res.send({ message: err.message })
     }
-
 }
 
-export const roleSuperAdmin = async function(req, res, next){
-    // const authHeader = req.headers['authorization']
-    // const token = authHeader && authHeader.split(" ")[1]
-
-    // if (token == null) {
-    //     return res.sendStatus(401)
-    // }
+export const roleSuperAdmin = function (req, res, next) {
     try {
-        jwt.verify(token, `${process.env.ACCESS_TOKEN_SECRET}`, async (err, auth) => {
-           
-            const thisUser = await User.findOne({ _id: ObjectId(auth.id) })
-           // console.log(thisUser)
-            if (thisUser.role == "super-admin" || thisUser.role == "CTO") {
+        switch (req.auth.role) {
+            case roles.SUPER_ADMIN:
+            case roles.CTO:
                 next()
-            } else {
-                res.status(403).send({ message: "Only a super-admin/ CTO has access!" })
-            }
-
-        // })
+                break;
+            default: res.status(403).send({ message: "Only a super-admin/ CTO has access!" })
+                console.log("Only a super-admin/ CTO has access!")
+                break;
+        }
     }
     catch (err) {
         res.send({ message: err.message })
