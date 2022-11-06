@@ -85,8 +85,9 @@ router.post("/sign-in",  async (req, res) => {
 
         }
     } catch (err) {
-        res.send(err.message)
-        console.log(err.message)
+        console.log("look this " +err )
+        res.send(err)
+        // console.log("look this " +err )
     }
 
 })

@@ -9,6 +9,7 @@ import { router as adminRouter } from "./routes/admin.js"
 const app = express()
 const PORT = process.env.PORT || 4000
 import cookieParser from "cookie-parser"
+import { db } from "./config/connection.js"
 import * as eventIndex from "./events/index.js"
 
 app.use(bodyParser.json())

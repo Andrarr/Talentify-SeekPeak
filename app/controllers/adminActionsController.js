@@ -83,19 +83,15 @@ export const queryApplicants = async (req, res) => {
 
 export const approvedApplication = async (req, res) => {
     try {
-        const thisApplicant = await Applicant.findOne({ _id: ObjectId(req.body._id) })
+        const { isApproved } = req.body;
+        const thisApplicant = await Applicant.findOneAndUpdate({ _id: ObjectId(req.body._id) }, {approvedApplication: isApproved })
+        if (thisApplicant && isApproved) {
+            Event.emit("approved::user", (thisApplicant.email))
+            return res.send({ message: "approved application email has been sent!" })
 
-        if (thisApplicant) {
-            await thisApplicant.updateOne({ approvedApplication: req.body.isApproved })
-
-            if (thisApplicant.approvedApplication == true) {
-                Event.emit("approved::user", (thisApplicant.email))
-                return res.send({ message: "approved application email has been sent!" })
-
-            } else {
-                Event.emit("declined::user", (thisApplicant.email))
-                return res.send({ message: "not approved application email has been sent!" })
-            }
+        } else if (thisApplicant && !isApproved){
+            Event.emit("declined::user", (thisApplicant.email))
+            return res.send({ message: "not approved application email has been sent!" })
         } else {
             return res.json({ message: "Wrong credentials of applicant!" })
         }
