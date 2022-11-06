@@ -1,7 +1,7 @@
 import express, { response } from "express";
 import bodyParser from "body-parser";
 import { User } from "../model/users.js";
-import bcrypt, { hash } from "bcrypt"
+import bcrypt, { compareSync, hash } from "bcrypt"
 import dotenv from 'dotenv';
 // import cookie from "cookie-parser";
 import jwt from "jsonwebtoken";
@@ -18,7 +18,7 @@ const createAccessToken = (id) => {
         expiresIn: '2 days'
     })
 }
-router.post("/sign-up", body("email").isEmail(), body("password").isLength({ min: 6 }), async (req, res) => {
+router.post("/sign-up", body("email").isEmail(), body("password").isLength({ min: 6 }), async (req, res, next) => {
     try {
         const salt = await bcrypt.genSalt()
         // const emailRegEx = /^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/
@@ -26,19 +26,15 @@ router.post("/sign-up", body("email").isEmail(), body("password").isLength({ min
         const { email, name, surname, birthday, country, gender, password, confirmPassword, department } = req.body
 
         if (!errors.isEmpty() && errors.errors[0].param == "email") {
-          return  res.status(400).send("Invalid email Address. Try again!")
+            return res.status(400).send("Invalid email Address. Try again!")
         }
         else if (!errors.isEmpty() && errors.errors[0].param == "password") {
-           return res.status(400).send("Password must be longer than 6 characters")
+            return res.status(400).send("Password must be longer than 6 characters")
         }
         if (password !== confirmPassword) {
-           return res.send("Passwords do not match!")
+            return res.send("Passwords do not match!")
         }
 
-        // let valid = emailRegEx.test(email)
-        // if (!valid) {
-        //     return res.send("Invalid email format!")
-        // }
         const hashedPassword = await bcrypt.hash(password, salt)
         const hashedConfirmPassword = await bcrypt.hash(confirmPassword, salt)
 
@@ -57,22 +53,21 @@ router.post("/sign-up", body("email").isEmail(), body("password").isLength({ min
         const foundUser = await User.create(userRegistered)
         const token = createAccessToken(foundUser._id)
         return res.send({ jwt: token })
-    } catch (err) {
-       return res.send({message: err.message})
+    } catch (e) {
+        next(e)
     }
-}
-)
+})
 
-router.post("/sign-in",  async (req, res) => {
+router.post("/sign-in", async (req, res) => {
     try {
         const { email, password } = req.body
         const foundUser = await User.findOne({ email })
 
         if (foundUser == undefined) {
-           return res.send(`You are not registered!`)
+            return res.send(`You are not registered!`)
         }
         if (!req.body.email || !req.body.password) {
-           return  res.send(`Email and Password are required!`)
+            return res.send(`Email and Password are required!`)
         }
         if (await bcrypt.compare(password, foundUser.password)) {
             const roles = Object.values(foundUser.role)
@@ -81,11 +76,11 @@ router.post("/sign-in",  async (req, res) => {
             // const refreshToken = createRefreshToken(foundUser._id)
             // res.cookie('jwt', token, { httpOnly: false, maxAge: 10000 * 100 })
             //res.cookie('jwtt', refreshToken, {httpOnly: true, maxAge: 24 * 60  * 60 * 1000})
-           return res.send({ jwt: token })
+            return res.send({ jwt: token })
 
         }
     } catch (err) {
-        console.log("look this " +err )
+        console.log("look this " + err)
         res.send(err)
         // console.log("look this " +err )
     }

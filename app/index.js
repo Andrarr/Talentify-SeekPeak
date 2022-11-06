@@ -9,6 +9,7 @@ import { router as adminRouter } from "./routes/admin.js"
 const app = express()
 const PORT = process.env.PORT || 4000
 import cookieParser from "cookie-parser"
+import { errorHandler } from "./middleware/errorHandler.js"
 import { db } from "./config/connection.js"
 import * as eventIndex from "./events/index.js"
 
@@ -25,8 +26,7 @@ app.get("/uploads/:img", (req, res) => {
         res.render(img)
     }
     catch (err) {
-        console.log(err.message)
-        res.send({ message: "File not found!" })
+        throw { message: "File not found!" }
     }
 })
 
@@ -38,5 +38,7 @@ app.use("/api", applicantRouter)
 app.use("/api", user)
 app.use("/api", adminRouter)
 app.use("/uploads", express.static('upload'))
+
+app.use(errorHandler)
 
 app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) })
