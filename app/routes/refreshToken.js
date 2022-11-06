@@ -17,7 +17,7 @@ router.get('/', authenticateToken, async (req, res) => {
         console.log(foundUser)
         console.log(foundUser._id)
         // with the existing accessToken from sign in
-        if(foundUser == undefined ){
+        if(foundUser == null){
           return  res.send({message: "User with that email not found"})
         }   
         if(foundUser){

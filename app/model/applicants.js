@@ -1,3 +1,4 @@
+// import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
@@ -20,11 +21,11 @@ const documentsSchema = new mongoose.Schema({
 
 const applicantsSchema = new mongoose.Schema({
 
-    //userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, 
-    email:{type: String, ref: "User"},// referenced user with id
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, 
+    email: { type: String },// referenced user with id
     passedTest: { type: Boolean, default: null },
     approvedApplication: { type: Boolean, default: null },
-    importedDocs: {type: Object}
+    importedDocs: { type: Object }
 },
     { timestamps: { createdAt: "created_at" } }
 )

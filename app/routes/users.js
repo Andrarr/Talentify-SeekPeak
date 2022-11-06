@@ -10,11 +10,7 @@ import { roleAuthorization } from "../middleware/roleAuth.js"
 import { body, validationResult } from "express-validator"
 
 dotenv.config();
-const app = express()
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+
 const router = express.Router()
 
 const createAccessToken = (id) => {

@@ -4,12 +4,6 @@ import { Department } from "../model/departments.js";
 import { authenticateToken } from "../middleware/authToken.js";
 import { roleAuthorization } from "../middleware/roleAuth.js"
 
-
-const app = express()
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
 const router = express.Router()
 
 router.post("/departments", authenticateToken, roleAuthorization, async (req, res) => {
