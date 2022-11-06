@@ -8,7 +8,7 @@ export const approved = Event.on("approved::user", async (receiverEmail) => {
         from: "seekPeak@frakton.dev",
         to: receiverEmail,
         subject: "application approved",
-        html: "<b>Hi there!</b> <br> Your appkication has been approved!"
+        html: "<b>Hi there!</b> <br> Your application has been approved!"
     });
     console.log("approved email sent")
 }

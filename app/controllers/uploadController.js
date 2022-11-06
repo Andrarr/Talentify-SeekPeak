@@ -13,15 +13,16 @@ export const Storage = multer.diskStorage({
     filename: (req, file, callback) => {
         callback(null, uuidv4() + ".jpg")
     }
+
 })
 
 export const upload = multer({
     storage: Storage
 }).array('document', 2)
 
+
 export const uploader = function (req, res) {
     try {
-
         upload(req, res, async (err) => {
             const applicant = new Applicant(
                 {

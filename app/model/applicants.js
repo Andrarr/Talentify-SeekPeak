@@ -13,11 +13,7 @@ const documentsSchema = new mongoose.Schema({
     cv: {
         data: Buffer,
         contentType: String
-    }
-    // motivationalLetter: {
-    //     data:
-    // }
-})
+    }})
 
 const applicantsSchema = new mongoose.Schema({
 
