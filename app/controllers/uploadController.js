@@ -1,6 +1,5 @@
 import express from "express";
 import bodyParser from "body-parser";
-// import {uuid} from "uuidv4"
 import { v4 as uuidv4 } from "uuid"
 import fs from "fs"
 import multer from "multer"
@@ -8,10 +7,6 @@ import { Applicant, Document } from "../model/applicants.js";
 import jwt from "jsonwebtoken";
 import { authenticateToken } from "../middleware/authToken.js";
 import nodestatic from "node-static"
-
-//export let fileServer = new nodestatic.Server('./upload');
-
-
 
 export const Storage = multer.diskStorage({
     destination: "uploads",

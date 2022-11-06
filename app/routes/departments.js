@@ -6,7 +6,7 @@ import { roleAuthorization } from "../middleware/roleAuth.js"
 
 const router = express.Router()
 
-router.post("/departments", roleAuthorization, async (req, res) => {
+router.post("/departments", authenticateToken, roleAuthorization, async (req, res) => {
 
     if (req.body.department) {
         try {
