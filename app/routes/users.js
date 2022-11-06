@@ -3,8 +3,8 @@ import bodyParser from "body-parser";
 import { User } from "../model/users.js";
 import bcrypt, { hash } from "bcrypt"
 import dotenv from 'dotenv';
-import { } from "cookie-parser";
-import jwt from "jsonwebtoken"
+// import cookie from "cookie-parser";
+import jwt from "jsonwebtoken";
 import { authenticateToken } from '../middleware/authToken.js'
 import { roleAuthorization } from "../middleware/roleAuth.js"
 

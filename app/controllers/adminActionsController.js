@@ -1,6 +1,8 @@
 import { User } from "../model/users.js";
 import { Applicant } from "../model/applicants.js";
 import { ObjectId } from "mongodb";
+import nodemailer from "nodemailer"
+import { Event } from "../events/events.js";
 
 export const updateRole = async (req, res) => {
     try {
@@ -51,7 +53,6 @@ export const allApplicants = async (req, res) => {
 export const queryApplicants = async (req, res) => {
     try {
         let { email, department } = req.query
-        console.log('email here', email)
 
         let result = [];
         Applicant.find({ email }).populate('email').then(function (applicants) {
@@ -80,17 +81,35 @@ export const queryApplicants = async (req, res) => {
     }
 }
 
+const transporter = nodemailer.createTransport({
+    host: "smtpmailhog.frakton.dev",
+    port: 1025,
+    username: null,
+    password: null,
+    from: "seekPeak@frakton.dev",
+    encryption: null
+});
+
 export const approvedApplication = async (req, res) => {
     try {
-        let thisApplicant = await Applicant.findOne({ _id: ObjectId(req.body._id) })
+        const thisApplicant = await Applicant.findOne({ _id: ObjectId(req.body._id) })
 
         if (thisApplicant) {
-            let approved = await thisApplicant.updateOne({ approvedApplication: req.body.isApproved })
-            return res.send({ message: thisApplicant })
+            await thisApplicant.updateOne({ approvedApplication: req.body.isApproved })
+
+            if (thisApplicant.approvedApplication == true) {
+                Event.emit("approved::user", (thisApplicant.email))
+                return res.send({ message: "approved application email has been sent!" })
+
+            } else {
+                Event.emit("declined::user", (thisApplicant.email))
+                return res.send({ message: "not approved application email has been sent!" })
+            }
+        } else {
+            return res.json({ message: "Wrong credentials of applicant!" })
         }
     } catch (err) {
         res.send({ message: err.message })
         console.log(err.message)
     }
-
 }

@@ -31,18 +31,16 @@ export const roleAuthorization = function (req, res, next) {
 
 }
 
-export const roleSuperAdmin = function(req, res, next){
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(" ")[1]
+export const roleSuperAdmin = async function(req, res, next){
+    // const authHeader = req.headers['authorization']
+    // const token = authHeader && authHeader.split(" ")[1]
 
-    if (token == null) {
-        return res.sendStatus(401)
-    }
+    // if (token == null) {
+    //     return res.sendStatus(401)
+    // }
     try {
         jwt.verify(token, `${process.env.ACCESS_TOKEN_SECRET}`, async (err, auth) => {
-            if (err) {
-                return res.sendStatus(403)
-            }
+           
             const thisUser = await User.findOne({ _id: ObjectId(auth.id) })
            // console.log(thisUser)
             if (thisUser.role == "super-admin" || thisUser.role == "CTO") {
@@ -51,7 +49,7 @@ export const roleSuperAdmin = function(req, res, next){
                 res.status(403).send({ message: "Only a super-admin/ CTO has access!" })
             }
 
-        })
+        // })
     }
     catch (err) {
         res.send({ message: err.message })
