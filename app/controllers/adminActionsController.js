@@ -81,15 +81,6 @@ export const queryApplicants = async (req, res) => {
     }
 }
 
-const transporter = nodemailer.createTransport({
-    host: "smtpmailhog.frakton.dev",
-    port: 1025,
-    username: null,
-    password: null,
-    from: "seekPeak@frakton.dev",
-    encryption: null
-});
-
 export const approvedApplication = async (req, res) => {
     try {
         const thisApplicant = await Applicant.findOne({ _id: ObjectId(req.body._id) })
