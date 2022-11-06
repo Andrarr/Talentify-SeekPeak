@@ -9,14 +9,14 @@ import { updateRole, allApplicants, oneApplicant, queryApplicants, approvedAppli
 const router = express.Router()
 
 
-router.put("/users/:id", authenticateToken, roleAuthorization, updateRole)
+router.put("/users/:id", [authenticateToken, roleAuthorization], updateRole)
 
-router.get("/applicant", authenticateToken, roleAuthorization, oneApplicant)
+router.get("/applicant", [authenticateToken, roleAuthorization], oneApplicant)
 
-router.get("/applicants", authenticateToken, roleAuthorization, allApplicants)
+router.get("/applicants", [authenticateToken, roleAuthorization], allApplicants)
 
-router.get("/query", authenticateToken, roleAuthorization, queryApplicants )
+router.get("/query", [authenticateToken, roleAuthorization], queryApplicants )
 
-router.post("/applicants/approve", authenticateToken, roleAuthorization, approvedApplication)
+router.post("/applicants/approve", [authenticateToken, roleAuthorization], approvedApplication)
 
 export {router}

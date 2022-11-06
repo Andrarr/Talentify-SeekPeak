@@ -12,7 +12,7 @@ export const authenticateToken = async (req, res, next) => {
     }
     jwt.verify(token, `${process.env.ACCESS_TOKEN_SECRET}`, async (err, auth) => {
         if (err) {
-            return res.sendStatus(403)
+            return res.sendStatus(401)
         }
         req.auth = await User.findOne({ _id: ObjectId(auth.id) });
         

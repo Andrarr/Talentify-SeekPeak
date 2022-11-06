@@ -7,6 +7,7 @@ import { Applicant, Document } from "../model/applicants.js";
 import jwt from "jsonwebtoken";
 import { authenticateToken } from "../middleware/authToken.js";
 import nodestatic from "node-static"
+import { ApplicantService } from "../services/applicant.js";
 
 export const Storage = multer.diskStorage({
     destination: "uploads",
@@ -22,29 +23,15 @@ export const upload = multer({
 
 
 export const uploader = function (req, res) {
-    try {
-        upload(req, res, async (err) => {
-            const applicant = new Applicant(
-                {
-                    email: req.auth.email,
-                    name: req.body.name,
-                    importedDocs: [{
-                        document: "cv",
-                        data: req.files[0].path,
-                        contentType: "application/pdf"
-                    },
-                    {
-                        document: "motivationalLetter",
-                        data: req.files[1].path,
-                        contentType: "application/pdf"
 
-                    }]
-                })
+    upload(req, res, async (err) => {
+        await ApplicantService.createApplicant({
+            email: req.auth.email,
+            name: req.body.name,
+            pathCV: req.files[0].path,
+            pathML: req.files[1].path,
+            userId: req.body.userId
+        })
+    })
 
-            await applicant.save()
-        }) 
-    } catch (err) {
-            console.log(err.message)
-            return res.sendStatus().send({message: err.message})
-        }
 }

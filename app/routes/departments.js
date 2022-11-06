@@ -6,17 +6,14 @@ import { roleAuthorization } from "../middleware/roleAuth.js"
 
 const router = express.Router()
 
-router.post("/departments", authenticateToken, roleAuthorization, async (req, res) => {
+router.post("/departments", [authenticateToken, roleAuthorization], async (req, res) => {
 
     if (req.body.department) {
-        try {
-            await Department.create(req.body)
-            res.send({ message: `Department has been created!` })
-            console.log(`Department has been created!`)
 
-        } catch (err) {
-            console.log(err.message)
-        }
+        await Department.create(req.body)
+        res.send({ message: `Department has been created!` })
+        console.log(`Department has been created!`)
+
     }
     else {
         res.status(422).send({ message: `Department field is required!` })
@@ -24,15 +21,11 @@ router.post("/departments", authenticateToken, roleAuthorization, async (req, re
 })
 
 router.get("/departments", authenticateToken, (req, res) => {
-    try {
-        Department.find({}).then((function (department) {
-            res.send(department)
-        }))
 
-    } catch (err) {
-        res.json(err)
-        console.log(err.message)
-    }
+    Department.find({}).then((function (department) {
+        res.send(department)
+    }))
+
 
 })
 
