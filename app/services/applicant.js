@@ -35,7 +35,7 @@ export class ApplicantService {
         return applicant
     }
 
-    static createApplicant = async (obj) => {
+    static createApplicant = async (obj) =>{
         const applicant = new Applicant(
             {
                 email: obj.email,
