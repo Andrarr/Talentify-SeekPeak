@@ -4,7 +4,7 @@ import { router as depRouter } from "./routes/departments.js"
 import { router as userRouter } from "./routes/users.js"
 import { router as refresh } from "./routes/refreshToken.js"
 import { router as applicantRouter } from "./routes/applicants.js"
-import { user } from "./routes/super-admin.js"
+import { newTeamLeader } from "./routes/super-admin.js"
 import { router as adminRouter } from "./routes/admin.js"
 const app = express()
 const PORT = process.env.PORT || 4000
@@ -35,7 +35,7 @@ app.use("/refresh-token", refresh)
 app.use("/api", depRouter)
 app.use("/api", userRouter)
 app.use("/api", applicantRouter)
-app.use("/api", user)
+app.use("/api", newTeamLeader)
 app.use("/api", adminRouter)
 app.use("/uploads", express.static('upload'))
 
