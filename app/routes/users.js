@@ -1,13 +1,11 @@
 import express, { response } from "express";
 import bodyParser from "body-parser";
 import { User } from "../model/users.js";
-import bcrypt, { compareSync, hash } from "bcrypt"
+import bcrypt from "bcrypt"
 import dotenv from 'dotenv';
-// import cookie from "cookie-parser";
 import jwt from "jsonwebtoken";
-import { authenticateToken } from '../middleware/authToken.js'
-import { roleAuthorization } from "../middleware/roleAuth.js"
-import { body, validationResult } from "express-validator"
+
+import { signUpValidationSchema } from "../validation/validation.js"
 
 dotenv.config();
 
@@ -18,22 +16,14 @@ const createAccessToken = (id) => {
         expiresIn: '2 days'
     })
 }
-router.post("/sign-up", body("email").isEmail(), body("password").isLength({ min: 6 }), async (req, res, next) => {
+router.post("/sign-up", async (req, res, next) => {
     try {
-        const salt = await bcrypt.genSalt()
-        // const emailRegEx = /^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/
-        const errors = validationResult(req)
-        const { email, name, surname, birthday, country, gender, password, confirmPassword, department } = req.body
 
-        if (!errors.isEmpty() && errors.errors[0].param == "email") {
-            return res.status(400).send("Invalid email Address. Try again!")
-        }
-        else if (!errors.isEmpty() && errors.errors[0].param == "password") {
-            return res.status(400).send("Password must be longer than 6 characters")
-        }
-        if (password !== confirmPassword) {
-            return res.send("Passwords do not match!")
-        }
+        const result = await signUpValidationSchema.validateAsync(req.body)
+        console.log(result)
+        const salt = await bcrypt.genSalt()
+  
+        const { email, name, surname, birthday, country, gender, password, confirmPassword, department } = req.body
 
         const hashedPassword = await bcrypt.hash(password, salt)
         const hashedConfirmPassword = await bcrypt.hash(confirmPassword, salt)
@@ -51,14 +41,16 @@ router.post("/sign-up", body("email").isEmail(), body("password").isLength({ min
         }
 
         const foundUser = await User.create(userRegistered)
+
         const token = createAccessToken(foundUser._id)
+
         return res.send({ jwt: token })
     } catch (e) {
         next(e)
     }
 })
 
-router.post("/sign-in", async (req, res) => {
+router.post("/sign-in", async (req, res, next) => {
     try {
         const { email, password } = req.body
         const foundUser = await User.findOne({ email })
@@ -80,8 +72,7 @@ router.post("/sign-in", async (req, res) => {
 
         }
     } catch (err) {
-        console.log("look this " + err)
-        res.send(err)
+        next(err)
         // console.log("look this " +err )
     }
 

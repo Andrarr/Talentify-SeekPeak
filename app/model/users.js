@@ -1,7 +1,8 @@
 import mongoose from "mongoose"
+import { Schema } from "mongoose"
 import { Department } from "./departments.js"
 
-const usersSchema = new mongoose.Schema({
+const usersSchema = new Schema({
 
     email: {
         type: String,
@@ -36,8 +37,8 @@ const usersSchema = new mongoose.Schema({
         required: true
     },
     department: {
-        type: String
-        // required: true
+        type: String,
+        required: true
     },
 
     role: {

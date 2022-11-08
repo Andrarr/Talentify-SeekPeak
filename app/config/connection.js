@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
-
-
-export const db = mongoose.connect("mongodb://localhost:27017/SeekPeak", () => {
+import {} from "dotenv";
+export const db = mongoose.connect(`${process.env.URI}`, () => {
     console.log("Database is connected!")
 },
     err => console.error(err))

@@ -6,17 +6,22 @@ export class ApplicantService {
     static findByEmail = async (email) => {
         return await Applicant.findOne({ email: email })
     }
+
     static findAll = async () => {
         return await Applicant.find({})
     }
+    
     static findByEmailAndPopulateByUser = async (email, department) => {
         return await Applicant.find({ email }).populate('userId').then(function (applicants) {
             let result = []
+
             if (department) {
 
                 const filteredArray = applicants.filter(x => x.userId.department === department);
                 result = filteredArray;
+
             } else {
+
                 result = applicants
             }
             if (result.length < 1) {

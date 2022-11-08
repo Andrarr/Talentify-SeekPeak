@@ -12,10 +12,6 @@ export const newTeamLeader = router.post("/super-admin", [authenticateToken, rol
         name: req.body.name,
         role: req.body.role
     }
-    // to create a CTO or teamLeader as a USER model, the 'required' fields of creating a user are needed
     await User.create(teamLead)
     res.send({message:"team-leader has been created"})
 })
-
-
-

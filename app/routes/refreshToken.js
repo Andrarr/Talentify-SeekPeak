@@ -4,12 +4,11 @@ import jwt from "jsonwebtoken";
 import { User } from "../model/users.js";
 import { authenticateToken } from "../middleware/authToken.js";
 
-
-
 const createRefreshToken = (id) => {
     return jwt.sign({ id }, `${process.env.REFRESH_TOKEN_SECRET}`,
         { expiresIn: '1d' })
 }
+
 router.get('/', authenticateToken, async (req, res) => {
     try {
         const { email } = req.body

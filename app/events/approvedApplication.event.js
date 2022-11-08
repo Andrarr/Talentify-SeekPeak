@@ -20,7 +20,7 @@ export const approved = Event.on("approved::user", async ({ receiverEmail }) => 
 export const notApproved = Event.on("declined::user", async (receiverEmail) => {
     let html = await loadTemplate("applicationReview.html", {
         answer: "Declined",
-        reason: "Not Accepted"
+        reason: "Didn't fit our requirements!"
     })
 
     await transporter.sendMail({

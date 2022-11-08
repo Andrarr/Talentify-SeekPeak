@@ -1,8 +1,6 @@
-import { User } from "../model/users.js";
 import { roles } from "../utils/inputs.js"
 
 export const roleAuthorization = function (req, res, next) {
-
     switch (req.auth.role) {
         case roles.TEAMLEADER:
         case roles.CTO:
@@ -14,11 +12,9 @@ export const roleAuthorization = function (req, res, next) {
             console.log("You don't have authority for this action!")
             break;
     }
-
 }
 
 export const roleSuperAdmin = function (req, res, next) {
-
     switch (req.auth.role) {
         case roles.SUPER_ADMIN:
         case roles.CTO:
@@ -29,5 +25,3 @@ export const roleSuperAdmin = function (req, res, next) {
             break;
     }
 }
-
-

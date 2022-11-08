@@ -5,9 +5,7 @@ import { authenticateToken } from "../middleware/authToken.js";
 import { roleAuthorization } from "../middleware/roleAuth.js"
 import { updateRole, allApplicants, oneApplicant, queryApplicants, approvedApplication } from "../controllers/adminActionsController.js";
 
-
 const router = express.Router()
-
 
 router.put("/users/:id", [authenticateToken, roleAuthorization], updateRole)
 

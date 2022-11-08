@@ -3,7 +3,6 @@ import dotenv from 'dotenv'
 import { User } from "../model/users.js";
 import { ObjectId } from "mongodb"
 
-
 export const authenticateToken = async (req, res, next) => {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(" ")[1]
@@ -15,7 +14,6 @@ export const authenticateToken = async (req, res, next) => {
             return res.sendStatus(401)
         }
         req.auth = await User.findOne({ _id: ObjectId(auth.id) });
-        
         next()
     })
 }

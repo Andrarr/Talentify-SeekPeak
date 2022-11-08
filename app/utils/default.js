@@ -1,21 +1,10 @@
-
 import nodemailer from "nodemailer"
 
 export const transporter = nodemailer.createTransport({
-  host: "smtpmailhog.frakton.dev",
-  port: 1025,
+  host: `${process.env.EMAIL_HOST}`,
+  port: `${process.env.EMAIL_PORT}`,
   username: null,
   password: null,
-  from: "seekPeak@frakton.dev",
+  from: `${process.env.EMAIL_SENDER}`,
   encryption: null
 });
-
-//export const transporter = nodemailer.createTransport({
-//     host: "smtp.gmail.com",
-//     port: 587,
-//     secure: false,
-//     auth: {
-//         user: "andrra.rrustemi@frakton.com",
-//         pass: "engnvimilzukktrw"
-//     }
-// });

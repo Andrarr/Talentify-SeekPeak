@@ -1,13 +1,19 @@
 import { Department } from "../model/departments.js";
 import { DepartmentService } from "../services/departments.js";
+import { newDepartmentSchema } from "../validation/validation.js";
 
-export const createDepartments = async (req, res) => {
-    if (req.body.department) {
-        await DepartmentService.createDepartment(req.body)
-        res.send({ message: `Department has been created!` })
-    }
-    else {
-        res.status(422).send({ message: `Department field is required!` })
+export const createDepartments = async (req, res, next) => {
+    try {
+        if (req.body.department) {
+            await newDepartmentSchema.validateAsync(req.body)
+            await DepartmentService.createDepartment(req.body)
+            res.send({ message: `Department has been created!` })
+        }
+        else {
+            res.status(422).send({ message: `Department field is required!` })
+        }
+    } catch (err) {
+        next(err)
     }
 }
 
@@ -18,7 +24,7 @@ export const allDepartments = async (req, res) => {
         })
 }
 
-export const oneDepartment = async (req, res) => {
+export const oneDepartment = async (req, res, next) => {
     try {
         const department = await DepartmentService.findById(req.params.depId)
         res.send({ department: department })
@@ -43,7 +49,6 @@ export const deleteDepartment = async (req, res, next) => {
     try {
         await DepartmentService.deleteById(req.params.depId)
         res.json({ message: `Department with id: ${req.params.depId} has been deleted!` })
-
     } catch (e) {
         next(e)
     }

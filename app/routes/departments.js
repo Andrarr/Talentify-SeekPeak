@@ -1,6 +1,5 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { Department } from "../model/departments.js";
 import { authenticateToken } from "../middleware/authToken.js";
 import { roleAuthorization } from "../middleware/roleAuth.js"
 import { allDepartments, createDepartments, deleteDepartment, oneDepartment, updateDepartment } from "../controllers/departmentController.js";
@@ -11,10 +10,10 @@ router.post("/departments", [authenticateToken, roleAuthorization], createDepart
 
 router.get("/departments", authenticateToken, allDepartments)
 
-router.get("/departments/:depId", roleAuthorization, oneDepartment)
+router.get("/departments/:depId", [authenticateToken, roleAuthorization], oneDepartment)
 
-router.patch("/departments/:depId", updateDepartment)
+router.patch("/departments/:depId", [authenticateToken, roleAuthorization], updateDepartment)
 
-router.delete("/departments/:depId", authenticateToken, roleAuthorization, deleteDepartment)
+router.delete("/departments/:depId", [authenticateToken, roleAuthorization], deleteDepartment)
 
 export { router }
