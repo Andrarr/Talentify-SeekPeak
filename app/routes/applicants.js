@@ -7,6 +7,6 @@ const router = express.Router()
 
 router.post("/applicants", [authenticateToken, validation("applicantValidation")], newApplicants)
 
-router.post("/exams/:examId", authenticateToken, examAnswers)
+router.post("/exams/:id", authenticateToken, examAnswers)
 
 export { router }
