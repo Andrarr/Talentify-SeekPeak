@@ -1,8 +1,9 @@
 const roles = {
-    TEAMLEADER: "TeamLeader",
-    CTO: "CTO",
+    TEAMLEADER: "team-leader",
+    CTO: "cto",
     ADMIN: "admin",
-    SUPER_ADMIN: "super-admin"
+    SUPER_ADMIN: "super-admin", 
+    USER: "user"
 }
 export { roles }
 

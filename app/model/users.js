@@ -1,6 +1,6 @@
-import mongoose from "mongoose"
-import { Schema } from "mongoose"
+import mongoose, { Schema } from "mongoose"
 import { Department } from "./departments.js"
+import { roles } from "../utils/inputs.js"
 
 const usersSchema = new Schema({
 
@@ -37,14 +37,13 @@ const usersSchema = new Schema({
         required: true
     },
     department: {
-        type: String,
-        required: true
+        departmentId: { type: Schema.Types.ObjectId, ref: "Department" }
     },
 
     role: {
         type: String,
-        enums: ['User', 'TeamLeader', 'CTO'],
-        default: 'User'
+        enum: [roles],
+        default: 'user'
     }
 
 })
