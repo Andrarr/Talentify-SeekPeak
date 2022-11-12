@@ -15,11 +15,15 @@ export const createDepartments = async (req, res, next) => {
     }
 }
 
-export const allDepartments = async (req, res) => {
-    await DepartmentService.allDepartments()
-        .then((department) => {
-            res.send(department)
-        })
+export const allDepartments = async (req, res, next) => {
+    try {
+        await DepartmentService.allDepartments()
+            .then((department) => {
+                res.send(department)
+            })
+    } catch (err) {
+        next(err)
+    }
 }
 
 export const oneDepartment = async (req, res, next) => {
@@ -51,4 +55,3 @@ export const deleteDepartment = async (req, res, next) => {
         next(e)
     }
 }
-

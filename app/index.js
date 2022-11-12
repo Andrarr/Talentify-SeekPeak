@@ -7,16 +7,16 @@ import { router as applicantRouter } from "./routes/applicants.js"
 import { newTeamLeader } from "./routes/super-admin.js"
 import { router as adminRouter } from "./routes/admin.js"
 import { router as examsRouter } from "./routes/exams.js"
+import { router as publicRouter } from "./routes/publicFolder.js"
 const app = express()
 import { db } from "./config/connection.js"
 import cookieParser from "cookie-parser"
 import { errorHandler } from "./middleware/errorHandler.js"
 import * as eventIndex from "./events/index.js"
-import dotenv from 'dotenv'
+import dotenv from "dotenv"
 
 dotenv.config()
-const PORT = process.env.PORT 
-
+const PORT = process.env.PORT
 
 app.use(bodyParser.json())
 app.use(bodyParser.json());
@@ -24,16 +24,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.use('/uploads', express.static('uploads'))
-app.get("/uploads/:img", (req, res) => {
-    const { img } = req.params;
-    try {
-        res.render(img)
-    }
-    catch (err) {
-        throw { message: "File not found!" }
-    }
-})
+app.use("/uploads", express.static("uploads"))
+app.get("/public", publicRouter)
 
 
 app.use("/refresh-token", refresh)
@@ -43,7 +35,8 @@ app.use("/api", applicantRouter)
 app.use("/api", newTeamLeader)
 app.use("/api", adminRouter)
 app.use("/api", examsRouter)
-app.use("/uploads", express.static('upload'))
+app.get("/public", publicRouter)
+app.use("/uploads", express.static("upload"))
 
 app.use(errorHandler)
 

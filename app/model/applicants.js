@@ -6,9 +6,8 @@ const applicantsSchema = new Schema({
     approvedApplication: { type: Boolean, default: null },
     importedDocs: { type: Object }
 },
-    { timestamps: { createdAt: "created_at" } }
+{ timestamps: { createdAt: "created_at" } }
 )
 
-let Applicant = mongoose.model('Applicant', applicantsSchema)
+let Applicant = mongoose.model("Applicant", applicantsSchema)
 export { Applicant }
-

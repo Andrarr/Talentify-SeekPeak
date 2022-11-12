@@ -1,16 +1,12 @@
-import express from "express";
-import bodyParser from "body-parser";
 import { User } from "../model/users.js";
 import bcrypt from "bcrypt"
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import { signUpValidation } from "../validation/validation.js"
 
 const createAccessToken = (id) => {
     return jwt.sign({ id }, `${process.env.ACCESS_TOKEN_SECRET}`, {
-        expiresIn: '1 d'
+        expiresIn: "1 d"
     })
-
 }
 
 export const signIn = async (req, res, next) => {
@@ -28,13 +24,9 @@ export const signIn = async (req, res, next) => {
             const roles = Object.values(foundUser.role)
 
             const token = createAccessToken(foundUser._id)
-            //  res.header("auth-token", token).send(token)
-            // const refreshToken = createRefreshToken(foundUser._id)
             return res.send({ jwt: token })
-
         }
     } catch (err) {
         next(err)
     }
-
 }

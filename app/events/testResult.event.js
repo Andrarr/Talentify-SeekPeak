@@ -2,7 +2,6 @@ import { transporter } from "../utils/default.js"
 import { loadTemplate } from "../utils/loadView.js"
 import { Event } from "./events.js"
 
-
 export const passed = Event.on("passedTest::true", async (receiverEmail) => {
     let html = await loadTemplate("passedTestEmail.html", {
         answer: "Passed your test",

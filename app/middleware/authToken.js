@@ -1,10 +1,10 @@
-import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv'
+import jwt from "jsonwebtoken"
+import dotenv from "dotenv"
 import { User } from "../model/users.js";
 import { ObjectId } from "mongodb"
 
 export const authenticateToken = async (req, res, next) => {
-    const authHeader = req.headers['authorization']
+    const authHeader = req.headers["authorization"]
     const token = authHeader && authHeader.split(" ")[1]
     if (token == null) {
         return res.sendStatus(401)
@@ -17,6 +17,3 @@ export const authenticateToken = async (req, res, next) => {
         next()
     })
 }
-
-
-
