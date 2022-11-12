@@ -18,10 +18,10 @@ router.get("/applicants", [authenticateToken, roleAuthorization], queryApplicant
 
 router.post("/applicants/approve", [authenticateToken, roleAuthorization], approvedApplication)
 
-router.get("/filter-by-department", [authenticateToken, roleAuthorization], applicantsDepartment)
+router.get("/applicants", [authenticateToken, roleAuthorization], applicantsDepartment)
 
-router.get("/evaluateTest", [authenticateToken, roleAuthorization], scoreApplicants)
+router.get("/evaluate-test", [authenticateToken, roleAuthorization], scoreApplicants)
 
-router.get("/informApplicant", [authenticateToken, roleAuthorization], informApplicant)
+router.get("/inform-applicant", [authenticateToken, roleAuthorization], informApplicant)
 
 export { router }
