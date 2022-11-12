@@ -43,13 +43,10 @@ const usersSchema = new Schema({
     role: {
         type: String,
         enum: [roles],
-        default: 'user'
+        default: "user"
     }
 
 })
 
-
-let User = mongoose.model('User', usersSchema)
-
-
+let User = mongoose.model("User", usersSchema)
 export { User }

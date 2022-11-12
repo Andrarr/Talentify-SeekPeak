@@ -7,6 +7,5 @@ const departmentSchema = new Schema({
     }
 })
 
-const Department = mongoose.model('Department', departmentSchema);
+const Department = mongoose.model("Department", departmentSchema);
 export { Department }
-

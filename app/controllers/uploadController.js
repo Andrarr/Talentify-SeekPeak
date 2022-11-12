@@ -1,8 +1,6 @@
 import { v4 as uuidv4 } from "uuid"
 import multer from "multer"
-import path from "path"
 import { ApplicantService } from "../services/applicant.js";
-import { applicantValidation } from "../validation/validation.js"
 
 export const Storage = multer.diskStorage({
     destination: "uploads",
@@ -19,29 +17,29 @@ export const upload = multer({
             callback(null, true)
         }
         if (file.mimetype == "image/png") {
-            callback(null,false);
-            return cb(new Error('Invalid upload: fieldname should be different type! '));
+            callback(null, false);
+            return cb(new Error("Invalid upload: fieldname should be different type! "));
         }
     }
-}).array('document', 2)
+}).array("document", 2)
 
-//  .fields([{ name: 'cv', maxCount: 1 },
-// { name: 'motivationalLetter', maxCount: 1 }
+//  .fields([{ name: "cv", maxCount: 1 },
+// { name: "motivationalLetter", maxCount: 1 }
 // ])
 
-export const uploader = async function (req, res) {
+export const uploader = async function (req, res, next) {
+    try {
+        upload(req, res, async (err) => {
+            console.log(req.body);
 
-    upload(req, res, async (err) => {
-        console.log(req.body);
 
-
-        await ApplicantService.createApplicant({
-            userId: req.auth.id,
-            pathCV: req.files[0].path,
-            pathML: req.files[1].path
+            await ApplicantService.createApplicant({
+                userId: req.auth.id,
+                pathCV: req.files[0].path,
+                pathML: req.files[1].path
+            })
         })
-    })
-
-
-
+    } catch (err) {
+        next(err)
+    }
 }

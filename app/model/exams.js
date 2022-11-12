@@ -14,7 +14,7 @@ const examsSchema = new Schema({
             choices: Object,
             rightAnswer: String
         }
-        }
+    }
 })
 
 const Exam = new mongoose.model("Exam", examsSchema)

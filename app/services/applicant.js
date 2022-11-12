@@ -4,9 +4,6 @@ import { Event } from "../events/events.js";
 import { approved } from "../events/approvedApplication.event.js";
 import { notApproved } from "../events/approvedApplication.event.js";
 import { User } from "../model/users.js";
-// import { applicantValidation } from "../validation/validation.js";
-
-//remove static methods, leave just methods and initialize object
 
 export class ApplicantService {
     static findByEmail = async (email) => {
@@ -23,7 +20,7 @@ export class ApplicantService {
     }
 
     static findByEmailAndPopulateByUser = async (email, department) => {
-        return await Applicant.find({ email }).populate('userId').then(function (applicants) {
+        return await Applicant.find({ email }).populate("userId").then(function (applicants) {
             let result = []
 
             if (department) {
@@ -43,7 +40,6 @@ export class ApplicantService {
     }
 
     static filterApplicants = async (query) => {
-        console.log(query)
         return await Applicant.aggregate([
             {
                 $lookup: {
@@ -58,7 +54,6 @@ export class ApplicantService {
             }]
         )
     }
-
 
     static findByIdAndUpdateApproved = async (_id, isApproved, auth) => {
         const applicant = await Applicant.findOneAndUpdate({ _id: ObjectId(_id) }, { approvedApplication: isApproved })
@@ -76,21 +71,19 @@ export class ApplicantService {
     }
 
     static createApplicant = async (obj) => {
-
         const applicant = new Applicant(
             {
                 userId: obj.userId,
                 name: obj.name,
                 importedDocs: [{
                     document: "cv",
-                    data: obj.pathCV,
+                    data: obj.pathCV, 
                     contentType: "application/pdf"
                 },
                 {
                     document: "motivationalLetter",
                     data: obj.pathML,
                     contentType: "application/pdf"
-
                 }]
             })
 

@@ -10,9 +10,8 @@ export const approved = Event.on("approved::user", async ( receiverEmail) => {
     transporter.sendMail({
         from: "seekPeak@frakton.dev",
         to: receiverEmail,
-        subject: "application approved",
+        subject: "Regarding your Application - Information",
         html: html,
-        // auth: auth
     });
     console.log("approved email sent")
 }
@@ -26,9 +25,8 @@ export const notApproved = Event.on("declined::user", async ( receiverEmail ) =>
     transporter.sendMail({
         from: "seekPeak@frakton.dev",
         to: receiverEmail,
-        subject: "application not approved",
+        subject: "Regarding your Application - Information",
         html: html
     });
     console.log("declined email sent")
 })
-

@@ -10,5 +10,5 @@ const examsAnswersSchema = new Schema({
 
 })
 
-const ExamAnswers= new mongoose.model("ExamAnswers", examsAnswersSchema)
+const ExamAnswers = new mongoose.model("ExamAnswers", examsAnswersSchema)
 export { ExamAnswers }

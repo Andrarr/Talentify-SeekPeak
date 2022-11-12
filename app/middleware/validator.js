@@ -2,9 +2,9 @@ import Joi from "joi"
 import { Validators } from "../validation/index.js"
 
 export const validation = (validator) => {
-    console.log('validator', Validators.hasOwnProperty(validator))
+    console.log("validator", Validators.hasOwnProperty(validator))
     if (!Validators.hasOwnProperty(validator))
-        throw new Error(`'${validator}' validator is not exist`)
+        throw new Error(`"${validator}" validator does not exist`)
 
     return async function (req, res, next) {
         try {
@@ -12,7 +12,7 @@ export const validation = (validator) => {
             req.body = validated
             next()
         } catch (err) {
-            return res.send(422, { message: err.message })
+            return res.status(422).send({ message: err.message })
         }
     }
 }

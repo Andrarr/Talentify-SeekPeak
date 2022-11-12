@@ -6,8 +6,9 @@ import { Applicant } from "../model/applicants.js";
 
 export const testAvailable = Event.on("test::ready", async (receiverEmail) => {
     let html = await loadTemplate("examReadyReview.html", {
-        title: "Test is ready for you!"    
-       })
+        title: "Test is ready for you!",
+        diclaimer: "This test is meant to be an evaluation test!"
+    })
     transporter.sendMail({
         from: "seekPeak@frakton.dev",
         to: receiverEmail,

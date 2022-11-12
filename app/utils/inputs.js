@@ -6,4 +6,3 @@ const roles = {
     USER: "user"
 }
 export { roles }
-
