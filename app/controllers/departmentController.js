@@ -1,11 +1,9 @@
 import { Department } from "../model/departments.js";
 import { DepartmentService } from "../services/departments.js";
-import { newDepartmentSchema } from "../validation/validation.js";
 
 export const createDepartments = async (req, res, next) => {
     try {
         if (req.body.department) {
-            await newDepartmentSchema.validateAsync(req.body)
             await DepartmentService.createDepartment(req.body)
             res.send({ message: `Department has been created!` })
         }
@@ -53,3 +51,4 @@ export const deleteDepartment = async (req, res, next) => {
         next(e)
     }
 }
+

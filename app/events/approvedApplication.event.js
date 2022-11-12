@@ -2,7 +2,7 @@ import { Event } from "./events.js";
 import { transporter } from "../utils/default.js"
 import { loadTemplate } from "../utils/loadView.js";
 
-export const approved = Event.on("approved::user", async ({ receiverEmail }) => {
+export const approved = Event.on("approved::user", async ( receiverEmail) => {
     let html = await loadTemplate("applicationReview.html", {
         answer: "Approved",
         reason: "You are a fit for us!"
@@ -12,18 +12,18 @@ export const approved = Event.on("approved::user", async ({ receiverEmail }) => 
         to: receiverEmail,
         subject: "application approved",
         html: html,
+        // auth: auth
     });
     console.log("approved email sent")
 }
 )
 
-export const notApproved = Event.on("declined::user", async (receiverEmail) => {
+export const notApproved = Event.on("declined::user", async ( receiverEmail ) => {
     let html = await loadTemplate("applicationReview.html", {
         answer: "Declined",
-        reason: "Didn't fit our requirements!"
+        reason: "declined. Good luck!", 
     })
-
-    await transporter.sendMail({
+    transporter.sendMail({
         from: "seekPeak@frakton.dev",
         to: receiverEmail,
         subject: "application not approved",

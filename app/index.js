@@ -9,10 +9,13 @@ import { router as adminRouter } from "./routes/admin.js"
 import { router as examsRouter } from "./routes/exams.js"
 const app = express()
 import { db } from "./config/connection.js"
-const PORT = process.env.PORT 
 import cookieParser from "cookie-parser"
 import { errorHandler } from "./middleware/errorHandler.js"
 import * as eventIndex from "./events/index.js"
+import dotenv from 'dotenv'
+
+dotenv.config()
+const PORT = process.env.PORT 
 
 
 app.use(bodyParser.json())
@@ -33,8 +36,6 @@ app.get("/uploads/:img", (req, res) => {
 })
 
 
-
-app.use(cookieParser());
 app.use("/refresh-token", refresh)
 app.use("/api", depRouter)
 app.use("/api", userRouter)
@@ -46,4 +47,4 @@ app.use("/uploads", express.static('upload'))
 
 app.use(errorHandler)
 
-app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) })
+app.listen(PORT, () => { console.log(`Server started on port ${PORT} `) })
