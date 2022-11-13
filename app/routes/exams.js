@@ -13,10 +13,10 @@ router.get("/exam/:id", [authenticateToken, roleAuthorization], oneExam)
 
 router.post("/exams", [authenticateToken, roleAuthorization, validation("examSchema")], newExam)
 
-router.patch("/exam", [authenticateToken, roleAuthorization, validation("examUpdateValidation")], updateExam)
+router.patch("/exam/:id", [authenticateToken, roleAuthorization, validation("examUpdateValidation")], updateExam)
 
-router.delete("/exam", [authenticateToken, roleAuthorization], deleteExam)
+router.delete("/exam/:id", [authenticateToken, roleAuthorization], deleteExam)
 
-router.get("/exam/:id", authenticateToken, examQuestions)
+router.get("/exam/:id/questions", authenticateToken, examQuestions)
 
 export { router }
