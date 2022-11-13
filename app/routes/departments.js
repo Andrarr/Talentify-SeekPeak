@@ -13,7 +13,7 @@ router.get("/departments", authenticateToken, allDepartments)
 
 router.get("/departments/:depId", authenticateToken, oneDepartment)
 
-router.patch("/departments/:depId", [authenticateToken, roleAuthorization], updateDepartment)
+router.patch("/departments/:depId", [authenticateToken, roleAuthorization, validation("departmentUpdateValidation")], updateDepartment)
 
 router.delete("/departments/:depId", [authenticateToken, roleAuthorization], deleteDepartment)
 

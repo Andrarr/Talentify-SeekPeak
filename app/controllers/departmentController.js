@@ -38,9 +38,8 @@ export const oneDepartment = async (req, res, next) => {
 export const updateDepartment = async (req, res, next) => {
     try {
         await DepartmentService.updateById(req.params.depId, req.body)
-        Department.findOne({ _id: req.params.depId }).then(function (department) {
-            res.send(department)
-            console.log(`Department with id: ${req.params.depId} has been updated!`)
+        await Department.findOne({ _id: req.params.depId }).then(function (department) {
+            return res.json({ message: `Department with id: ${req.params.depId} has been updated!` })
         })
     } catch (e) {
         next(e)

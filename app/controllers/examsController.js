@@ -59,7 +59,8 @@ export const informApplicant = async (req, res, next) => {
 
 export const oneExam = async (req, res, next) => {
     try {
-        let exam = await ExamService.findById(req)
+        const id = req.params.id
+        let exam = await ExamService.findById(id)
         return res.send({ message: exam })
     } catch (err) {
         next(err)
@@ -78,10 +79,12 @@ export const allExams = async (req, res, next) => {
 export const updateExam = async (req, res, next) => {
     try {
         await ExamService.updateExam(req)
-        let updatedExam = await ExamService.findById(req)
-        return res.send({ updatedExam: updatedExam })
+        const id = req.body.id
+        let updatedExam = await ExamService.findById(id)
+        return res.send({ updatedExam: "Exam has been updated " + updatedExam })
     } catch (err) {
         next(err)
+        console.log(err)
     }
 }
 

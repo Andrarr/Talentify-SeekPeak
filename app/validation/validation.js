@@ -48,3 +48,33 @@ const customMethod = (value, helpers) => {
 }
 
 export const applicantValidation = Joi.object().keys({ document: Joi.custom(customMethod, "custom validation") })
+
+export const approvedApplication = Joi.object().keys({
+    id: Joi.string().required(),
+    isApproved: Joi.boolean().required()
+})
+
+export const applicantAnswersValidation = Joi.object().keys({
+    examId: Joi.string().required(),
+    answers: Joi.array().required(),
+    answers: Joi.array().items(Joi.object().keys({
+        questionNr: Joi.number().required(),
+        answer: Joi.string().valid("a", "b", "c").required()
+    })).required()
+
+})
+
+
+export const departmentUpdateValidation = Joi.object().keys({
+    department: Joi.string().required()
+})
+
+export const examUpdateValidation = Joi.object().keys({
+    id: Joi.string().required(),
+    questions: Joi.object().required()
+})
+
+export const signInValidation = Joi.object().keys({
+    email: Joi.string().email().trim().required(),
+    password: Joi.string().min(6).max(12).trim().required()  
+});
