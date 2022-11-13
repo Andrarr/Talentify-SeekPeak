@@ -5,7 +5,7 @@ import { ApplicantService } from "../services/applicant.js";
 export const Storage = multer.diskStorage({
     destination: "uploads",
     filename: (req, file, callback) => {
-        callback(null, uuidv4())
+        callback(null, uuidv4() + ".jpg")
         req.body = file
     }
 })
