@@ -55,7 +55,7 @@ export class ApplicantService {
         )
     }
 
-    static findByIdAndUpdateApproved = async (_id, isApproved, auth) => {
+    static findByIdAndUpdateApproved = async (_id, isApproved) => {
         const applicant = await Applicant.findOneAndUpdate({ _id: ObjectId(_id) }, { approvedApplication: isApproved })
 
         const user = await User.findOne({ _id: ObjectId(applicant.userId) })
