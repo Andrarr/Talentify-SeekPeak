@@ -12,7 +12,7 @@ export const signUpValidation = Joi.object().keys({
     department: Joi.string().required(),
 });
 
-export const signUpAdminValidation = Joi.object().keys({
+export const createAdminValidation = Joi.object().keys({
     email: Joi.string().email().trim().required(),
     name: Joi.string().alphanum().min(2).max(30).required(),
     surname: Joi.string().alphanum().required(),
@@ -70,11 +70,11 @@ export const departmentUpdateValidation = Joi.object().keys({
 })
 
 export const examUpdateValidation = Joi.object().keys({
-    id: Joi.string().required(),
     questions: Joi.object().required()
 })
 
 export const signInValidation = Joi.object().keys({
     email: Joi.string().email().trim().required(),
-    password: Joi.string().min(6).max(12).trim().required()  
+    password: Joi.string().min(6).trim().required()  
 });
+

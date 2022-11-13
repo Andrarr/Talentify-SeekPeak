@@ -79,9 +79,9 @@ export const allExams = async (req, res, next) => {
 export const updateExam = async (req, res, next) => {
     try {
         await ExamService.updateExam(req)
-        const id = req.body.id
+        const id = req.params.id
         let updatedExam = await ExamService.findById(id)
-        return res.send({ updatedExam: "Exam has been updated " + updatedExam })
+        return res.send({ updatedExam: "Exam has been updated " })
     } catch (err) {
         next(err)
         console.log(err)
@@ -90,13 +90,10 @@ export const updateExam = async (req, res, next) => {
 
 export const deleteExam = async (req, res, next) => {
     try {
-        const { id } = req.body
-        let exists = await ExamService.findById(req)
+        const id = req.params.id
+        await ExamService.findById(id)
         if (!id) {
             res.send({ message: "Please specify Id of exam you wish to delete!" })
-        }
-        if (!exists) {
-            res.send({ message: "There is no record of that exam" })
         }
         else {
             await ExamService.deleteExam(id)

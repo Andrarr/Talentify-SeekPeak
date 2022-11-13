@@ -1,7 +1,7 @@
 import express from "express";
 import { authenticateToken } from "../middleware/authToken.js";
 import { roleAuthorization } from "../middleware/roleAuth.js"
-import { signUpAdmin, oneApplicant, queryApplicants, approvedApplication, scoreApplicants } from "../controllers/adminActionsController.js";
+import { createAdmin, oneApplicant, queryApplicants, approvedApplication, scoreApplicants } from "../controllers/adminActionsController.js";
 import { applicantsDepartment } from "../controllers/applicantController.js";
 import { queryDepartments, informApplicant } from "../controllers/examsController.js";
 import { validation } from "../middleware/validator.js";
@@ -9,7 +9,7 @@ import { validation } from "../middleware/validator.js";
 
 const router = express.Router()
 
-router.post("/users", [authenticateToken, roleAuthorization, validation("signUpAdminValidation")], signUpAdmin)
+router.post("/users", [authenticateToken, roleAuthorization, validation("createAdminValidation")], createAdmin)
 
 router.get("/applicant", [authenticateToken, roleAuthorization], oneApplicant)
 

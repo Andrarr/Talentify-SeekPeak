@@ -43,7 +43,8 @@ export class ExamService {
 
     static updateExam = async (req, next) => {
         try {
-            const { id, questions } = req.body
+            const id = req.params.id
+            const  questions = req.body.questions
 
             return await Exam.findOneAndReplace({ _id: id }, { questions: questions })
         } catch (err) {

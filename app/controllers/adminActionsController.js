@@ -4,7 +4,6 @@ import { Applicant } from "../model/applicants.js"
 import bcrypt from "bcrypt"
 import { User } from "../model/users.js"
 import jwt from "jsonwebtoken"
-import { signUpAdminValidation } from "../validation/validation.js"
 import { examAnswers } from "./applicantController.js"
 import { ExamAnswers } from "../model/examAnswers.js"
 import { Exam } from "../model/exams.js"
@@ -40,14 +39,13 @@ export const updateRole = async (req, res, next) => {
     }
 }
 
-export const signUpAdmin = async (req, res, next) => {
+export const createAdmin = async (req, res, next) => {
     try {
         const createAccessToken = (id) => {
             return jwt.sign({ id }, `${process.env.ACCESS_TOKEN_SECRET}`, {
                 expiresIn: "1d"
             })
         }
-        await signUpAdminValidation.validateAsync(req.body)
         const salt = await bcrypt.genSalt()
         const { email, name, surname, birthday, country, gender, password, "confirm-password": confirmPassword, department, role } = req.body
         const hashedPassword = await bcrypt.hash(password, salt)
