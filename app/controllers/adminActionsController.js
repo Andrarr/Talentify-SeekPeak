@@ -44,7 +44,7 @@ export const signUpAdmin = async (req, res, next) => {
     try {
         const createAccessToken = (id) => {
             return jwt.sign({ id }, `${process.env.ACCESS_TOKEN_SECRET}`, {
-                expiresIn: "1 d"
+                expiresIn: "1d"
             })
         }
         await signUpAdminValidation.validateAsync(req.body)
@@ -70,7 +70,7 @@ export const signUpAdmin = async (req, res, next) => {
 
         const token = createAccessToken(admin._id)
 
-        return res.send({ message: "You are signed up!" })
+        return res.send({ message: "A team-leader has been created" })
     } catch (e) {
         next(e)
     }
@@ -125,9 +125,9 @@ export const queryApplicants = async (req, res, next) => {
 export const approvedApplication = async (req, res, next) => {
     try {
 
-        const { _id, isApproved } = req.body;
+        const { id, isApproved } = req.body;
 
-        const thisApplicant = await ApplicantService.findByIdAndUpdateApproved(_id, isApproved);
+        const thisApplicant = await ApplicantService.findByIdAndUpdateApproved(id, isApproved);
 
         if (thisApplicant && isApproved) {
             return res.send({ message: "approved application email has been sent!" })

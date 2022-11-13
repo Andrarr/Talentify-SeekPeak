@@ -6,7 +6,7 @@ import { signUpValidation } from "../validation/validation.js"
 
 const createAccessToken = (id) => {
     return jwt.sign({ id }, `${process.env.ACCESS_TOKEN_SECRET}`, {
-        expiresIn: "1 d"
+        expiresIn: "1d"
     })
 }
 

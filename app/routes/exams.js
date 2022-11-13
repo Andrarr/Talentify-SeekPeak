@@ -9,11 +9,11 @@ const router = express.Router()
 
 router.get("/exams", [authenticateToken, roleAuthorization], allExams);
 
-router.get("/exam", [authenticateToken, roleAuthorization], oneExam)
+router.get("/exam/:id", [authenticateToken, roleAuthorization], oneExam)
 
 router.post("/exams", [authenticateToken, roleAuthorization, validation("examSchema")], newExam)
 
-router.patch("/exam", [authenticateToken, roleAuthorization], updateExam)
+router.patch("/exam", [authenticateToken, roleAuthorization, validation("examUpdateValidation")], updateExam)
 
 router.delete("/exam", [authenticateToken, roleAuthorization], deleteExam)
 

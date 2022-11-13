@@ -5,7 +5,7 @@ export class ExamService {
 
     static createExam = async (req, next) => {
         try {
-            let {  createdBy, questions, departmentsId, rightAnswer } = req.body
+            let { createdBy, questions, departmentsId, rightAnswer } = req.body
 
             let data = departmentsId.map((dep) => {
                 return ObjectId(dep)
@@ -25,14 +25,14 @@ export class ExamService {
         }
     }
 
-    static findById = async (req, next) => {
+    static findById = async (id) => {
         try {
-            const { id } = req.body
             return await Exam.findOne({ _id: id })
         } catch (err) {
-            next(err)
+            console.log(err.message)
         }
     }
+    
     static findAll = async (req, next) => {
         try {
             return await Exam.find({})

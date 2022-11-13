@@ -9,7 +9,7 @@ const router = express.Router()
 
 router.post("/sign-up", validation("signUpValidation"), signUp)
 
-router.post("/sign-in", signIn)
+router.post("/sign-in", validation("signInValidation"), signIn)
 
 router.post("/logout", authenticateToken, logOut)
 
