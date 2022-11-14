@@ -16,16 +16,12 @@ export const upload = multer({
         if (file.mimetype == "application/pdf", file.mimetype == "application/x-pdf", file.mimetype == "application/msword", file.mimetype == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
             callback(null, true)
         }
-        if (file.mimetype == "image/png") {
+        if (file.mimetype == "application/zip") {
             callback(null, false);
             return cb(new Error("Invalid upload: fieldname should be different type! "));
         }
     }
 }).array("document", 2)
-
-//  .fields([{ name: "cv", maxCount: 1 },
-// { name: "motivationalLetter", maxCount: 1 }
-// ])
 
 export const uploader = async function (req, res, next) {
     try {

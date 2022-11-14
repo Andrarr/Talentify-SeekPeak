@@ -50,8 +50,9 @@ export const informApplicant = async (req, res, next) => {
 
             Event.emit("test::ready", (email))
             return res.send({ message: "Applicant has been informed for test creation!" })
+        } else {
+            return res.send({ message: "Applicant's application has not been approved yet!" })
         }
-        return res.send({ message: "something went wrong" })
     } catch (err) {
         next(err)
     }
