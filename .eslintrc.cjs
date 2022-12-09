@@ -1,19 +1,17 @@
-module.exports = {
-    env: {
-        browser: true,
-        es2021: true,
-    },
-    overrides: [
-    ],
-    parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-    },
-    rules: {
-        'no-unused-vars': 'off',
-        'linebreak-style': 'off',
-        'import/extensions': 'off',
-        'quotes': [2, 'single', { 'avoidEscape': true , 'allowTemplateLiterals': true }],
-        indent: ['error', 4],
-    },
-};
+// module.exports = {
+//   env: {
+//     browser: true,
+//     es2021: true,
+//   },
+//   extends: 'airbnb-base',
+//   overrides: [
+//   ],
+//   parserOptions: {
+//     ecmaVersion: 'latest',
+//     sourceType: 'module',
+//   },
+//   rules: {
+//     'no-unused-vars': 'off',
+//     'import/extensions': ['always'],
+//   },
+// };
