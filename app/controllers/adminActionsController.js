@@ -77,7 +77,7 @@ export const signUpAdmin = async (req, res) => {
 
     const admin = await User.create(adminRegistered);
 
-    const token = createAccessToken(admin._id);
+    createAccessToken(admin._id);
 
     return res.send({ message: "You are signed up!" });
   } catch (e) {
